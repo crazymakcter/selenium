@@ -73,20 +73,32 @@ def setup(request):
     logger = logging.getLogger()
     logger.info(browser)
     driver = None
-
-    capabilities = {
-        "browserName": "firefox",
-        "browserVersion": "95.0",
-        "selenoid:options": {
-            "enableVNC": True,
-            "enableVideo": False
+    if browser == "firefox":
+        capabilities = {
+            "browserName": "firefox",
+            "browserVersion": "95.0",
+            "selenoid:options": {
+                "enableVNC": True,
+                "enableVideo": False
+            }
         }
-    }
-    driver = webdriver.Remote(
-        command_executor="http://localhost:4444/wd/hub",
-        desired_capabilities=capabilities)
-    driver.maximize_window()
+        driver = webdriver.Remote(
+            command_executor="http://localhost:4444/wd/hub",
+            desired_capabilities=capabilities)
+        driver.maximize_window()
+    elif browser == "chrome":
+        capabilities = {
+            "browserName": "chrome",
+            "browserVersion": "95.0",
+            "selenoid:options": {
+                "enableVNC": True,
+                "enableVideo": False
+            }
+        }
 
+        driver = webdriver.Remote(
+            command_executor="http://localhost:4444/wd/hub",
+            desired_capabilities=capabilities)
     yield driver
     driver.close()
 
